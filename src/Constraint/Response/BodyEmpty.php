@@ -9,18 +9,20 @@ namespace Chiron\Testing\Constraint\Response;
  *
  * @internal
  */
-class BodyEmpty extends ResponseBase
+class BodyEmpty extends AbstractResponseBase
 {
     /**
      * Checks assertion
      *
      * @param mixed $other Expected type
+     *
      * @return bool
+     *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function matches($other): bool
     {
-        return empty($this->_getBodyAsString());
+        return empty($this->getBodyAsString());
     }
 
     /**
@@ -37,6 +39,7 @@ class BodyEmpty extends ResponseBase
      * Overwrites the descriptions so we can remove the automatic "expected" message
      *
      * @param mixed $other Value
+     *
      * @return string
      */
     protected function failureDescription(mixed $other): string

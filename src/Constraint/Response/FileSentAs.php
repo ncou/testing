@@ -11,10 +11,10 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @internal
  */
-class FileSentAs extends ResponseBase
+class FileSentAs extends AbstractResponseBase
 {
     /**
-     * @var \Cake\Http\Response
+     * @var ResponseInterface
      */
     protected ResponseInterface $response;
 
@@ -22,7 +22,9 @@ class FileSentAs extends ResponseBase
      * Checks assertion
      *
      * @param mixed $other Expected type
+     *
      * @return bool
+     *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function matches($other): bool

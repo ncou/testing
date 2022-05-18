@@ -9,12 +9,13 @@ namespace Chiron\Testing\Constraint\Console;
  *
  * @internal
  */
-class ContentsRegExp extends ContentsBase
+class ContentsRegExp extends AbstractContentsBase
 {
     /**
      * Checks if contents contain expected
      *
      * @param mixed $other Expected
+     *
      * @return bool
      */
     public function matches(mixed $other): bool
@@ -34,6 +35,7 @@ class ContentsRegExp extends ContentsBase
 
     /**
      * @param mixed $other Expected
+     *
      * @return string
      */
     public function failureDescription(mixed $other): string

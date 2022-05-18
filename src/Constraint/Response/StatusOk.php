@@ -9,7 +9,7 @@ namespace Chiron\Testing\Constraint\Response;
  *
  * @internal
  */
-class StatusOk extends StatusCodeBase
+class StatusOk extends AbstractStatusCodeBase
 {
     /**
      * @var array<int, int>|int

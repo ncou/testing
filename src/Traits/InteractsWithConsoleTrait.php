@@ -5,10 +5,6 @@ declare(strict_types=1);
 namespace Chiron\Testing\Traits;
 
 use Chiron\Console\Console;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
 use Chiron\Testing\Constraint\Console\ContentsContain;
 use Chiron\Testing\Constraint\Console\ContentsContainRow;
 use Chiron\Testing\Constraint\Console\ContentsEmpty;
@@ -16,20 +12,27 @@ use Chiron\Testing\Constraint\Console\ContentsNotContain;
 use Chiron\Testing\Constraint\Console\ContentsRegExp;
 use Chiron\Testing\Constraint\Console\ExitCode;
 use Chiron\Testing\Stub\ConsoleOutput;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\OutputInterface;
+
+use const PHP_EOL;
 
 //https://github.com/cakephp/cakephp/blob/5.x/src/TestSuite/ConsoleIntegrationTestTrait.php
 
 trait InteractsWithConsoleTrait
 {
     private int $exitCode;
-    private array $stdout;
-    private array $sterr;
+    private array $stdout = [];
+    private array $sterr = [];
 
     /**
      * Asserts shell exited with the expected code
      *
-     * @param int $expected Expected exit code
-     * @param string $message Failure message
+     * @param int    $expected Expected exit code
+     * @param string $message  Failure message
+     *
      * @return void
      */
     public function assertExitCode(int $expected, string $message = ''): void
@@ -41,6 +44,7 @@ trait InteractsWithConsoleTrait
      * Asserts shell exited with the Command::SUCCESS
      *
      * @param string $message Failure message
+     *
      * @return void
      */
     public function assertExitSuccess(string $message = ''): void
@@ -52,6 +56,7 @@ trait InteractsWithConsoleTrait
      * Asserts shell exited with Command::FAILURE
      *
      * @param string $message Failure message
+     *
      * @return void
      */
     public function assertExitFailure(string $message = ''): void
@@ -63,6 +68,7 @@ trait InteractsWithConsoleTrait
      * Asserts that `stdout` is empty
      *
      * @param string $message The message to output when the assertion fails.
+     *
      * @return void
      */
     public function assertOutputEmpty(string $message = ''): void
@@ -74,7 +80,8 @@ trait InteractsWithConsoleTrait
      * Asserts `stdout` contains expected output
      *
      * @param string $expected Expected output
-     * @param string $message Failure message
+     * @param string $message  Failure message
+     *
      * @return void
      */
     public function assertOutputContains(string $expected, string $message = ''): void
@@ -86,7 +93,8 @@ trait InteractsWithConsoleTrait
      * Asserts `stdout` does not contain expected output
      *
      * @param string $expected Expected output
-     * @param string $message Failure message
+     * @param string $message  Failure message
+     *
      * @return void
      */
     public function assertOutputNotContains(string $expected, string $message = ''): void
@@ -99,6 +107,7 @@ trait InteractsWithConsoleTrait
      *
      * @param string $pattern Expected pattern
      * @param string $message Failure message
+     *
      * @return void
      */
     public function assertOutputRegExp(string $pattern, string $message = ''): void
@@ -109,8 +118,9 @@ trait InteractsWithConsoleTrait
     /**
      * Check that a row of cells exists in the output.
      *
-     * @param array $row Row of cells to ensure exist in the output.
+     * @param array  $row     Row of cells to ensure exist in the output.
      * @param string $message Failure message.
+     *
      * @return void
      */
     public function assertOutputContainsRow(array $row, string $message = ''): void
@@ -122,7 +132,8 @@ trait InteractsWithConsoleTrait
      * Asserts `stderr` contains expected output
      *
      * @param string $expected Expected output
-     * @param string $message Failure message
+     * @param string $message  Failure message
+     *
      * @return void
      */
     public function assertErrorContains(string $expected, string $message = ''): void
@@ -135,6 +146,7 @@ trait InteractsWithConsoleTrait
      *
      * @param string $pattern Expected pattern
      * @param string $message Failure message
+     *
      * @return void
      */
     public function assertErrorRegExp(string $pattern, string $message = ''): void
@@ -146,6 +158,7 @@ trait InteractsWithConsoleTrait
      * Asserts that `stderr` is empty
      *
      * @param string $message The message to output when the assertion fails.
+     *
      * @return void
      */
     public function assertErrorEmpty(string $message = ''): void
@@ -181,6 +194,7 @@ trait InteractsWithConsoleTrait
      *  quiet       : -q (no output)
     */
     //https://github.com/symfony/console/blob/ec3661faca1d110d6c307e124b44f99ac54179e3/Output/OutputInterface.php
+
     /**
     public const VERBOSITY_QUIET = 16;
     public const VERBOSITY_NORMAL = 32;
@@ -197,7 +211,7 @@ trait InteractsWithConsoleTrait
 
         $this->exitCode = $this->console()->run($input, $output); // TODO : vérifier comment ca se passe en cas d'exception et faire un try/catch ????
 
-        $this->stdout = explode(\PHP_EOL, $output->fetch());
+        $this->stdout = explode(PHP_EOL, $output->fetch());
     }
 
     protected function runCommand(string $command, array $args = []): void
@@ -215,6 +229,7 @@ trait InteractsWithConsoleTrait
 
     protected function console(): Console
     {
-        return $this->app->get(Console::class);
+        //return $this->app->get(Console::class);
+        throw new \RuntimeException('You need to implement the method console() when using InteractsWithConsoleTrait');
     }
 }

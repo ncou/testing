@@ -7,11 +7,11 @@ namespace Chiron\Testing\Constraint\Console;
 use PHPUnit\Framework\Constraint\Constraint;
 
 /**
- * Base constraint for content constraints
+ * Abstract base constraint for content constraints
  *
  * @internal
  */
-abstract class ContentsBase extends Constraint
+abstract class AbstractContentsBase extends Constraint
 {
     /**
      * @var string
@@ -27,7 +27,7 @@ abstract class ContentsBase extends Constraint
      * Constructor
      *
      * @param array<string> $contents Contents
-     * @param string $output Output type
+     * @param string        $output   Output type
      */
     public function __construct(array $contents, string $output)
     {

@@ -15,7 +15,9 @@ class BodyNotEquals extends BodyEquals
      * Checks assertion
      *
      * @param mixed $other Expected type
+     *
      * @return bool
+     *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function matches($other): bool

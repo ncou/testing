@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace Chiron\Testing\Traits;
 
 use Chiron\Http\Http;
-use Nyholm\Psr7\ServerRequest;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Chiron\Testing\Constraint\Response\BodyContains;
 use Chiron\Testing\Constraint\Response\BodyEmpty;
 use Chiron\Testing\Constraint\Response\BodyEquals;
@@ -17,8 +14,6 @@ use Chiron\Testing\Constraint\Response\BodyNotEquals;
 use Chiron\Testing\Constraint\Response\BodyNotRegExp;
 use Chiron\Testing\Constraint\Response\BodyRegExp;
 use Chiron\Testing\Constraint\Response\ContentType;
-use Chiron\Testing\Constraint\Response\FileSent;
-use Chiron\Testing\Constraint\Response\FileSentAs;
 use Chiron\Testing\Constraint\Response\HeaderContains;
 use Chiron\Testing\Constraint\Response\HeaderEquals;
 use Chiron\Testing\Constraint\Response\HeaderNotContains;
@@ -29,6 +24,8 @@ use Chiron\Testing\Constraint\Response\StatusError;
 use Chiron\Testing\Constraint\Response\StatusFailure;
 use Chiron\Testing\Constraint\Response\StatusOk;
 use Chiron\Testing\Constraint\Response\StatusSuccess;
+use Nyholm\Psr7\ServerRequest;
+use Psr\Http\Message\ResponseInterface;
 
 //https://github.com/cakephp/cakephp/blob/5.x/src/TestSuite/IntegrationTestTrait.php
 //https://github.com/cakephp/cakephp/blob/73fdfea3d5e87b7d32b0a23a119dda7a4f48ad79/tests/TestCase/TestSuite/IntegrationTestTraitTest.php#L1239
@@ -43,10 +40,12 @@ use Chiron\Testing\Constraint\Response\StatusSuccess;
 trait InteractsWithHttpTrait
 {
     private ResponseInterface $response;
+
     /**
      * Asserts that the response status code is in the 2xx range.
      *
      * @param string $message Custom message for failure.
+     *
      * @return void
      */
     public function assertResponseOk(string $message = ''): void
@@ -58,6 +57,7 @@ trait InteractsWithHttpTrait
      * Asserts that the response status code is in the 2xx/3xx range.
      *
      * @param string $message Custom message for failure.
+     *
      * @return void
      */
     public function assertResponseSuccess(string $message = ''): void
@@ -69,6 +69,7 @@ trait InteractsWithHttpTrait
      * Asserts that the response status code is in the 4xx range.
      *
      * @param string $message Custom message for failure.
+     *
      * @return void
      */
     public function assertResponseError(string $message = ''): void
@@ -80,6 +81,7 @@ trait InteractsWithHttpTrait
      * Asserts that the response status code is in the 5xx range.
      *
      * @param string $message Custom message for failure.
+     *
      * @return void
      */
     public function assertResponseFailure(string $message = ''): void
@@ -90,8 +92,9 @@ trait InteractsWithHttpTrait
     /**
      * Asserts a specific response status code.
      *
-     * @param int $code Status code to assert.
+     * @param int    $code    Status code to assert.
      * @param string $message Custom message for failure.
+     *
      * @return void
      */
     public function assertResponseCode(int $code, string $message = ''): void
@@ -102,15 +105,16 @@ trait InteractsWithHttpTrait
     /**
      * Asserts that the Location header is correct. Comparison is made against a full URL.
      *
-     * @param array|string|null $url The URL you expected the client to go to. This
-     *   can either be a string URL or an array compatible with Router::url(). Use null to
-     *   simply check for the existence of this header.
-     * @param string $message The failure message that will be appended to the generated message.
+     * @param array|string|null $url     The URL you expected the client to go to. This
+     *       can either be a string URL or an array compatible with Router::url(). Use null to
+     *       simply check for the existence of this header.
+     * @param string            $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertRedirect(array|string|null $url = null, string $message = ''): void
     {
-        if (!$this->response) {
+        if (! $this->response) {
             $this->fail('No response set, cannot assert header.');
         }
 
@@ -128,15 +132,16 @@ trait InteractsWithHttpTrait
     /**
      * Asserts that the Location header is correct. Comparison is made against exactly the URL provided.
      *
-     * @param array|string|null $url The URL you expected the client to go to. This
-     *   can either be a string URL or an array compatible with Router::url(). Use null to
-     *   simply check for the existence of this header.
-     * @param string $message The failure message that will be appended to the generated message.
+     * @param array|string|null $url     The URL you expected the client to go to. This
+     *       can either be a string URL or an array compatible with Router::url(). Use null to
+     *       simply check for the existence of this header.
+     * @param string            $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertRedirectEquals(array|string|null $url = null, string $message = ''): void
     {
-        if (!$this->response) {
+        if (! $this->response) {
             $this->fail('No response set, cannot assert header.');
         }
 
@@ -150,13 +155,14 @@ trait InteractsWithHttpTrait
     /**
      * Asserts that the Location header contains a substring
      *
-     * @param string $url The URL you expected the client to go to.
+     * @param string $url     The URL you expected the client to go to.
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertRedirectContains(string $url, string $message = ''): void
     {
-        if (!$this->response) {
+        if (! $this->response) {
             $this->fail('No response set, cannot assert header.');
         }
 
@@ -167,13 +173,14 @@ trait InteractsWithHttpTrait
     /**
      * Asserts that the Location header does not contain a substring
      *
-     * @param string $url The URL you expected the client to go to.
+     * @param string $url     The URL you expected the client to go to.
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertRedirectNotContains(string $url, string $message = ''): void
     {
-        if (!$this->response) {
+        if (! $this->response) {
             $this->fail('No response set, cannot assert header.');
         }
 
@@ -185,6 +192,7 @@ trait InteractsWithHttpTrait
      * Asserts that the Location header is not set.
      *
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertNoRedirect(string $message = ''): void
@@ -195,14 +203,15 @@ trait InteractsWithHttpTrait
     /**
      * Asserts response headers
      *
-     * @param string $header The header to check
+     * @param string $header  The header to check
      * @param string $content The content to check for.
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertHeader(string $header, string $content, string $message = ''): void
     {
-        if (!$this->response) {
+        if (! $this->response) {
             $this->fail('No response set, cannot assert header.');
         }
 
@@ -213,14 +222,15 @@ trait InteractsWithHttpTrait
     /**
      * Asserts response header contains a string
      *
-     * @param string $header The header to check
+     * @param string $header  The header to check
      * @param string $content The content to check for.
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertHeaderContains(string $header, string $content, string $message = ''): void
     {
-        if (!$this->response) {
+        if (! $this->response) {
             $this->fail('No response set, cannot assert header.');
         }
 
@@ -231,14 +241,15 @@ trait InteractsWithHttpTrait
     /**
      * Asserts response header does not contain a string
      *
-     * @param string $header The header to check
+     * @param string $header  The header to check
      * @param string $content The content to check for.
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertHeaderNotContains(string $header, string $content, string $message = ''): void
     {
-        if (!$this->response) {
+        if (! $this->response) {
             $this->fail('No response set, cannot assert header.');
         }
 
@@ -249,8 +260,9 @@ trait InteractsWithHttpTrait
     /**
      * Asserts content type
      *
-     * @param string $type The content-type to check for.
+     * @param string $type    The content-type to check for.
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertContentType(string $type, string $message = ''): void
@@ -261,8 +273,9 @@ trait InteractsWithHttpTrait
     /**
      * Asserts content in the response body equals.
      *
-     * @param mixed $content The content to check for.
+     * @param mixed  $content The content to check for.
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertResponseEquals(mixed $content, string $message = ''): void
@@ -273,8 +286,9 @@ trait InteractsWithHttpTrait
     /**
      * Asserts content in the response body not equals.
      *
-     * @param mixed $content The content to check for.
+     * @param mixed  $content The content to check for.
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertResponseNotEquals(mixed $content, string $message = ''): void
@@ -285,14 +299,15 @@ trait InteractsWithHttpTrait
     /**
      * Asserts content exists in the response body.
      *
-     * @param string $content The content to check for.
-     * @param string $message The failure message that will be appended to the generated message.
-     * @param bool $ignoreCase A flag to check whether we should ignore case or not.
+     * @param string $content    The content to check for.
+     * @param string $message    The failure message that will be appended to the generated message.
+     * @param bool   $ignoreCase A flag to check whether we should ignore case or not.
+     *
      * @return void
      */
     public function assertResponseContains(string $content, string $message = '', bool $ignoreCase = false): void
     {
-        if (!$this->response) {
+        if (! $this->response) {
             $this->fail('No response set, cannot assert content.');
         }
 
@@ -302,14 +317,15 @@ trait InteractsWithHttpTrait
     /**
      * Asserts content does not exist in the response body.
      *
-     * @param string $content The content to check for.
-     * @param string $message The failure message that will be appended to the generated message.
-     * @param bool $ignoreCase A flag to check whether we should ignore case or not.
+     * @param string $content    The content to check for.
+     * @param string $message    The failure message that will be appended to the generated message.
+     * @param bool   $ignoreCase A flag to check whether we should ignore case or not.
+     *
      * @return void
      */
     public function assertResponseNotContains(string $content, string $message = '', bool $ignoreCase = false): void
     {
-        if (!$this->response) {
+        if (! $this->response) {
             $this->fail('No response set, cannot assert content.');
         }
 
@@ -321,6 +337,7 @@ trait InteractsWithHttpTrait
      *
      * @param string $pattern The pattern to compare against.
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertResponseRegExp(string $pattern, string $message = ''): void
@@ -333,6 +350,7 @@ trait InteractsWithHttpTrait
      *
      * @param string $pattern The pattern to compare against.
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertResponseNotRegExp(string $pattern, string $message = ''): void
@@ -344,6 +362,7 @@ trait InteractsWithHttpTrait
      * Assert response content is not empty.
      *
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertResponseNotEmpty(string $message = ''): void
@@ -355,15 +374,13 @@ trait InteractsWithHttpTrait
      * Assert response content is empty.
      *
      * @param string $message The failure message that will be appended to the generated message.
+     *
      * @return void
      */
     public function assertResponseEmpty(string $message = ''): void
     {
         $this->assertThat(null, new BodyEmpty($this->response), $message);
     }
-
-
-
 
     protected function runRequest(string $method, $uri, array $headers = []): void
     {

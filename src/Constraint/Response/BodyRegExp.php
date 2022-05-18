@@ -9,18 +9,20 @@ namespace Chiron\Testing\Constraint\Response;
  *
  * @internal
  */
-class BodyRegExp extends ResponseBase
+class BodyRegExp extends AbstractResponseBase
 {
     /**
      * Checks assertion
      *
      * @param mixed $other Expected pattern
+     *
      * @return bool
+     *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function matches($other): bool
     {
-        return preg_match($other, $this->_getBodyAsString()) > 0;
+        return preg_match($other, $this->getBodyAsString()) > 0;
     }
 
     /**
@@ -35,6 +37,7 @@ class BodyRegExp extends ResponseBase
 
     /**
      * @param mixed $other Expected
+     *
      * @return string
      */
     public function failureDescription(mixed $other): string

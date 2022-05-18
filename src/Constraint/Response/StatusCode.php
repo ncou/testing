@@ -9,7 +9,7 @@ namespace Chiron\Testing\Constraint\Response;
  *
  * @internal
  */
-class StatusCode extends StatusCodeBase
+class StatusCode extends AbstractStatusCodeBase
 {
     /**
      * Assertion message
@@ -25,6 +25,7 @@ class StatusCode extends StatusCodeBase
      * Failure description
      *
      * @param mixed $other Expected code
+     *
      * @return string
      */
     public function failureDescription(mixed $other): string

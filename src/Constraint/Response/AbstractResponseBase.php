@@ -9,11 +9,11 @@ use PHPUnit\Framework\Constraint\Constraint;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Base constraint for response constraints
+ * Abstract base constraint for response constraints
  *
  * @internal
  */
-abstract class ResponseBase extends Constraint
+abstract class AbstractResponseBase extends Constraint
 {
     /**
      * @var \Psr\Http\Message\ResponseInterface
@@ -27,7 +27,7 @@ abstract class ResponseBase extends Constraint
      */
     public function __construct(?ResponseInterface $response)
     {
-        if (!$response) {
+        if (! $response) {
             throw new AssertionFailedError('No response set, cannot assert content.');
         }
 
@@ -39,8 +39,8 @@ abstract class ResponseBase extends Constraint
      *
      * @return string The response body.
      */
-    protected function _getBodyAsString(): string
+    protected function getBodyAsString(): string
     {
-        return (string)$this->response->getBody();
+        return (string) $this->response->getBody();
     }
 }

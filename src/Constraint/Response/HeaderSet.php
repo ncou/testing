@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @internal
  */
-class HeaderSet extends ResponseBase
+class HeaderSet extends AbstractResponseBase
 {
     /**
      * @var string
@@ -21,8 +21,8 @@ class HeaderSet extends ResponseBase
     /**
      * Constructor.
      *
-     * @param \Psr\Http\Message\ResponseInterface|null $response A response instance.
-     * @param string $headerName Header name
+     * @param \Psr\Http\Message\ResponseInterface|null $response   A response instance.
+     * @param string                                   $headerName Header name
      */
     public function __construct(?ResponseInterface $response, string $headerName)
     {
@@ -35,7 +35,9 @@ class HeaderSet extends ResponseBase
      * Checks assertion
      *
      * @param mixed $other Expected content
+     *
      * @return bool
+     *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function matches($other): bool
@@ -57,6 +59,7 @@ class HeaderSet extends ResponseBase
      * Overwrites the descriptions so we can remove the automatic "expected" message
      *
      * @param mixed $other Value
+     *
      * @return string
      */
     protected function failureDescription(mixed $other): string

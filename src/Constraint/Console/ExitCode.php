@@ -33,6 +33,7 @@ class ExitCode extends Constraint
      * Checks if event is in fired array
      *
      * @param mixed $other Constraint check
+     *
      * @return bool
      */
     public function matches(mixed $other): bool

@@ -9,12 +9,13 @@ namespace Chiron\Testing\Constraint\Console;
  *
  * @internal
  */
-class ContentsEmpty extends ContentsBase
+class ContentsEmpty extends AbstractContentsBase
 {
     /**
      * Checks if contents are empty
      *
      * @param mixed $other Expected
+     *
      * @return bool
      */
     public function matches(mixed $other): bool
@@ -36,6 +37,7 @@ class ContentsEmpty extends ContentsBase
      * Overwrites the descriptions so we can remove the automatic "expected" message
      *
      * @param mixed $other Value
+     *
      * @return string
      */
     protected function failureDescription(mixed $other): string

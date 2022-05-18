@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @internal
  */
-class BodyContains extends ResponseBase
+class BodyContains extends AbstractResponseBase
 {
     /**
      * @var bool
@@ -21,8 +21,8 @@ class BodyContains extends ResponseBase
     /**
      * Constructor.
      *
-     * @param \Psr\Http\Message\ResponseInterface $response A response instance.
-     * @param bool $ignoreCase Ignore case
+     * @param \Psr\Http\Message\ResponseInterface $response   A response instance.
+     * @param bool                                $ignoreCase Ignore case
      */
     public function __construct(ResponseInterface $response, bool $ignoreCase = false)
     {
@@ -35,7 +35,9 @@ class BodyContains extends ResponseBase
      * Checks assertion
      *
      * @param mixed $other Expected type
+     *
      * @return bool
+     *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function matches($other): bool
@@ -45,7 +47,7 @@ class BodyContains extends ResponseBase
             $method = 'mb_stripos';
         }
 
-        return $method($this->_getBodyAsString(), $other) !== false;
+        return $method($this->getBodyAsString(), $other) !== false;
     }
 
     /**

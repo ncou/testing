@@ -11,10 +11,10 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @internal
  */
-class ContentType extends ResponseBase
+class ContentType extends AbstractResponseBase
 {
     /**
-     * @var \Cake\Http\Response
+     * @var ResponseInterface
      */
     protected ResponseInterface $response;
 
@@ -22,9 +22,10 @@ class ContentType extends ResponseBase
      * Checks assertion
      *
      * @param mixed $other Expected type
+     *
      * @return bool
      */
-    public function matches($other): bool
+    public function matches(mixed $other): bool
     {
         return $other === $this->getType();
     }

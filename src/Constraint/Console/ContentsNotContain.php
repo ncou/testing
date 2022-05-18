@@ -9,12 +9,13 @@ namespace Chiron\Testing\Constraint\Console;
  *
  * @internal
  */
-class ContentsNotContain extends ContentsBase
+class ContentsNotContain extends AbstractContentsBase
 {
     /**
      * Checks if contents contain expected
      *
      * @param mixed $other Expected
+     *
      * @return bool
      */
     public function matches(mixed $other): bool

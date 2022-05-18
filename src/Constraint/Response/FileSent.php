@@ -11,10 +11,10 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @internal
  */
-class FileSent extends ResponseBase
+class FileSent extends AbstractResponseBase
 {
     /**
-     * @var \Cake\Http\Response
+     * @var ResponseInterface
      */
     protected ResponseInterface $response;
 
@@ -22,7 +22,9 @@ class FileSent extends ResponseBase
      * Checks assertion
      *
      * @param mixed $other Expected type
+     *
      * @return bool
+     *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function matches($other): bool
@@ -44,6 +46,7 @@ class FileSent extends ResponseBase
      * Overwrites the descriptions so we can remove the automatic "expected" message
      *
      * @param mixed $other Value
+     *
      * @return string
      */
     protected function failureDescription(mixed $other): string
