@@ -4,7 +4,11 @@
     "license": "MIT-0",
     "type": "library",
     "keywords": [
-        "chiron; testing; appplication; app; framework"
+        "chiron",
+        "testing",
+        "appplication",
+        "app",
+        "framework"
     ],
     "require": {
         "php": "^8.0 || ^8.1"
