@@ -1,0 +1,49 @@
+{
+    "name": "chiron/testing",
+    "description": "Testing library for the Chiron Framework",
+    "license": "MIT-0",
+    "type": "library",
+    "keywords": [
+        "chiron; testing; appplication; app; framework"
+    ],
+    "require": {
+        "php": "^8.0 || ^8.1"
+    },
+    "require-dev": {
+        "chiron/devtools": "^1.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Chiron\\Testing\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Chiron\\Test\\Testing\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true,
+            "captainhook/plugin-composer": true,
+            "chiron/devtools": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "captainhook": {
+            "force-install": true
+        },
+        "chiron/devtools": {
+            "command-prefix": "dev"
+        },
+        "ramsey/conventional-commits": {
+            "configFile": "conventional-commits.json"
+        }
+    }
+}
