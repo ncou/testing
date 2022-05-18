@@ -14,7 +14,13 @@
         "php": "^8.0 || ^8.1"
     },
     "require-dev": {
-        "chiron/devtools": "^1.0"
+        "chiron/console": "^0.9",
+        "chiron/devtools": "^1.0",
+        "chiron/http": "^1.1"
+    },
+    "suggest": {
+        "chiron/console": "Required to assert console commands (^0.9).",
+        "chiron/http": "Required to assert http responses (^1.1)."
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
