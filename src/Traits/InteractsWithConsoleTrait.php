@@ -12,19 +12,19 @@ use Chiron\Testing\Constraint\Console\ContentsNotContain;
 use Chiron\Testing\Constraint\Console\ContentsRegExp;
 use Chiron\Testing\Constraint\Console\ExitCode;
 use Chiron\Testing\Stub\ConsoleOutput;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\OutputInterface;
-
-use const PHP_EOL;
+//use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\StringInput;
 
 //https://github.com/cakephp/cakephp/blob/5.x/src/TestSuite/ConsoleIntegrationTestTrait.php
 
 trait InteractsWithConsoleTrait
 {
     private int $exitCode;
+    /** @var string[] */
     private array $stdout = [];
+    /** @var string[] */
     private array $sterr = [];
 
     /**
@@ -118,8 +118,8 @@ trait InteractsWithConsoleTrait
     /**
      * Check that a row of cells exists in the output.
      *
-     * @param array  $row     Row of cells to ensure exist in the output.
-     * @param string $message Failure message.
+     * @param array<string> $row     Row of cells to ensure exist in the output.
+     * @param string        $message Failure message.
      *
      * @return void
      */
@@ -166,6 +166,7 @@ trait InteractsWithConsoleTrait
         $this->assertThat(null, new ContentsEmpty($this->stderr, 'error output'), $message);
     }
 
+/*
     protected function runCommandDebug(string $command, array $args = [], ?OutputInterface $output = null): void
     {
         $output = $output ?? new BufferedOutput();
@@ -181,7 +182,7 @@ trait InteractsWithConsoleTrait
 
         $this->runCommand($command, $args, $output);
     }
-
+*/
     // TODO : ajouter deux paramétres $debug et $verbose ou $v et $vv à boolean initialisés à false et on pourrait faire un appel du genre ->runCommand('about', verbose: true)
     // TODO : renommer $args en $input ??? + utilité de garder un paramétre $output ????
     /**
@@ -202,6 +203,7 @@ trait InteractsWithConsoleTrait
     public const VERBOSITY_VERY_VERBOSE = 128;
     public const VERBOSITY_DEBUG = 256;
     */
+    /*
     protected function runCommand_SAVE(string $command, array $args = []): void
     {
         array_unshift($args, $command);
@@ -212,13 +214,22 @@ trait InteractsWithConsoleTrait
         $this->exitCode = $this->console()->run($input, $output); // TODO : vérifier comment ca se passe en cas d'exception et faire un try/catch ????
 
         $this->stdout = explode(PHP_EOL, $output->fetch());
-    }
+    }*/
 
-    protected function runCommand(string $command, array $args = []): void
+    /**
+     * @param string $command
+     */
+    protected function runCommand(string $command): void
     {
-        array_unshift($args, $command);
+        // TODO : utiliser plutot un StringInput pour la commande !!!! et pas un tableau !!!
+        // TODO : utiliser une méthode commandStringToArgs pour convertir la string command en un tableau d'arguments ca sera plus simple !!!
+        // https://github.com/cakephp/cakephp/blob/4fdcab51f02573621a337f1d314a0407b35acc8f/src/TestSuite/ConsoleIntegrationTestTrait.php#L272
+        // https://github.com/cakephp/cakephp/blob/bf993b65492aa34cd14fa3755642020b82a26f5a/tests/TestCase/TestSuite/ConsoleIntegrationTestTraitTest.php#L185
+        //array_unshift($args, $command);
 
-        $input = new ArrayInput($args);
+        //$input = new ArrayInput($args);
+
+        $input = new StringInput($command);
         $output = new ConsoleOutput(); // TODO : faire un mock ??? https://github.com/illuminate/testing/blob/731fdff06b909fa751363a07419a884cf5bd47e3/PendingCommand.php#L341
 
         $this->exitCode = $this->console()->run($input, $output); // TODO : vérifier comment ca se passe en cas d'exception et faire un try/catch ????
@@ -229,7 +240,66 @@ trait InteractsWithConsoleTrait
 
     protected function console(): Console
     {
-        //return $this->app->get(Console::class);
-        throw new \RuntimeException('You need to implement the method console() when using InteractsWithConsoleTrait');
+        throw new RuntimeException('You need to implement the method console() when using InteractsWithConsoleTrait');
     }
+
+    /**
+     * Creates an $argv array from a command string
+     *
+     * @param string $command Command string
+     *
+     * @return array<string>
+     */
+    // https://github.com/cakephp/cakephp/blob/4fdcab51f02573621a337f1d314a0407b35acc8f/src/TestSuite/ConsoleIntegrationTestTrait.php#L272
+    // https://github.com/cakephp/cakephp/blob/bf993b65492aa34cd14fa3755642020b82a26f5a/tests/TestCase/TestSuite/ConsoleIntegrationTestTraitTest.php#L185
+    /*
+    protected function commandStringToArgs(string $command): array
+    {
+        $charCount = strlen($command);
+        $argv = [];
+        $arg = '';
+        $inDQuote = false;
+        $inSQuote = false;
+        for ($i = 0; $i < $charCount; $i++) {
+            $char = substr($command, $i, 1);
+
+            // end of argument
+            if ($char === ' ' && !$inDQuote && !$inSQuote) {
+                if ($arg !== '') {
+                    $argv[] = $arg;
+                }
+                $arg = '';
+                continue;
+            }
+
+            // exiting single quote
+            if ($inSQuote && $char === "'") {
+                $inSQuote = false;
+                continue;
+            }
+
+            // exiting double quote
+            if ($inDQuote && $char === '"') {
+                $inDQuote = false;
+                continue;
+            }
+
+            // entering double quote
+            if ($char === '"' && !$inSQuote) {
+                $inDQuote = true;
+                continue;
+            }
+
+            // entering single quote
+            if ($char === "'" && !$inDQuote) {
+                $inSQuote = true;
+                continue;
+            }
+
+            $arg .= $char;
+        }
+        $argv[] = $arg;
+
+        return $argv;
+    }*/
 }

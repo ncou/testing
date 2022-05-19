@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\Output;
 // TODO : renommer en ArrayOutput ????
 class SpyOutput extends Output
 {
+    /** @var string[] */
     private array $messages = [];
 
     /**
@@ -37,7 +38,7 @@ class SpyOutput extends Output
     /**
      * Return the raw messages.
      *
-     * @return array
+     * @return string[]
      */
     public function messages(): array
     {

@@ -16,7 +16,8 @@
     "require-dev": {
         "chiron/console": "^0.9",
         "chiron/devtools": "^1.0",
-        "chiron/http": "^1.1"
+        "chiron/http": "^1.1",
+        "nyholm/psr7": "^1.5"
     },
     "suggest": {
         "chiron/console": "Required to assert console commands (^0.9).",

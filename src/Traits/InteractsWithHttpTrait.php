@@ -24,8 +24,9 @@ use Chiron\Testing\Constraint\Response\StatusError;
 use Chiron\Testing\Constraint\Response\StatusFailure;
 use Chiron\Testing\Constraint\Response\StatusOk;
 use Chiron\Testing\Constraint\Response\StatusSuccess;
-use Nyholm\Psr7\ServerRequest;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
 
 //https://github.com/cakephp/cakephp/blob/5.x/src/TestSuite/IntegrationTestTrait.php
 //https://github.com/cakephp/cakephp/blob/73fdfea3d5e87b7d32b0a23a119dda7a4f48ad79/tests/TestCase/TestSuite/IntegrationTestTraitTest.php#L1239
@@ -112,6 +113,7 @@ trait InteractsWithHttpTrait
      *
      * @return void
      */
+    /*
     public function assertRedirect(array|string|null $url = null, string $message = ''): void
     {
         if (! $this->response) {
@@ -127,7 +129,7 @@ trait InteractsWithHttpTrait
                 $message
             );
         }
-    }
+    }*/
 
     /**
      * Asserts that the Location header is correct. Comparison is made against exactly the URL provided.
@@ -139,6 +141,7 @@ trait InteractsWithHttpTrait
      *
      * @return void
      */
+    /*
     public function assertRedirectEquals(array|string|null $url = null, string $message = ''): void
     {
         if (! $this->response) {
@@ -150,7 +153,7 @@ trait InteractsWithHttpTrait
         if ($url) {
             $this->assertThat(Router::url($url), new HeaderEquals($this->response, 'Location'), $message);
         }
-    }
+    }*/
 
     /**
      * Asserts that the Location header contains a substring
@@ -382,16 +385,39 @@ trait InteractsWithHttpTrait
         $this->assertThat(null, new BodyEmpty($this->response), $message);
     }
 
-    protected function runRequest(string $method, $uri, array $headers = []): void
+    /**
+     * Execute a given request.
+     *
+     * @param ServerRequestInterface $request
+     */
+    protected function runRequest(ServerRequestInterface $request): void
     {
-        // TODO : attacher automatiquement le base_path à l'uri !!!
-        // https://github.com/clue/reactphp-buzz/blob/2d4c93be8cba9f482e96b8567916b32c737a9811/src/Message/MessageFactory.php#L120
-        $request = new ServerRequest($method, $uri, $headers, null, '1.1', []); // TODO : faire un mock pour le ServerRequestInterface au lieu d'utiliser la librairie de nyholm ???
         $this->response = $this->http()->handle($request);
     }
 
     protected function http(): Http
     {
+        throw new RuntimeException('You need to implement the method http() when using InteractsWithHttpTrait');
+    }
+
+    /**
+     * @param string                $method  HTTP method
+     * @param string|UriInterface   $uri     URI
+     * @param array<string, string> $headers Request headers
+     */
+    /*
+    protected function runRequest(string $method, string|UriInterface $uri, array $headers = []): void
+    {
+        // TODO : attacher automatiquement le base_path à l'uri !!!
+        // https://github.com/clue/reactphp-buzz/blob/2d4c93be8cba9f482e96b8567916b32c737a9811/src/Message/MessageFactory.php#L120
+        $request = new ServerRequest($method, $uri, $headers, null, '1.1', []); // TODO : faire un mock pour le ServerRequestInterface au lieu d'utiliser la librairie de nyholm ???
+        $this->response = $this->http()->handle($request);
+    }*/
+
+/*
+    protected function http(): Http
+    {
         return $this->app->get(Http::class);
     }
+    */
 }

@@ -22,6 +22,6 @@ class SampleCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        return $input->getOption('exit');
+        return (int) $input->getOption('exit');
     }
 }
