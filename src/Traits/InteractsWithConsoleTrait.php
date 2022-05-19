@@ -25,7 +25,7 @@ trait InteractsWithConsoleTrait
     /** @var string[] */
     private array $stdout = [];
     /** @var string[] */
-    private array $sterr = [];
+    private array $stderr = [];
 
     /**
      * Asserts shell exited with the expected code
